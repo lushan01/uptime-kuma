@@ -280,6 +280,20 @@ router.get("/api/badge/:id/uptime/:duration?", cache("5 minutes"), async (reques
     }
 });
 
+// router.get("/api/refresh/:id", cache("5 minutes"), async (request, response) => {
+router.get("/api/refresh/:id", async (request, response) => {
+    try {
+        const requestedMonitorId = parseInt(request.params.id, 10);
+        const uptimeCalculator = await UptimeCalculator.getRealtimeUptimeCalculator(requestedMonitorId);
+        response.status(200).json({
+            "status": "success",
+            "msg": "refresh successful",
+        });
+    } catch (error) {
+        sendHttpError(response, error.message);
+    }
+});
+
 router.get("/api/badge/:id/ping/:duration?", cache("5 minutes"), async (request, response) => {
     allowAllOrigin(response);
 
