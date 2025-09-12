@@ -25,6 +25,19 @@ let cache = apicache.middleware;
 const server = UptimeKumaServer.getInstance();
 let io = server.io;
 
+router.get("/api/refresh/:id", async (request, response) => {
+    try {
+        const requestedMonitorId = parseInt(request.params.id, 10);
+        const uptimeCalculator = await UptimeCalculator.getRealtimeUptimeCalculator(requestedMonitorId);
+        response.status(200).json({
+            "status": "success",
+            "msg": "refresh successful",
+        });
+    } catch (error) {
+        sendHttpError(response, error.message);
+    }
+});
+
 router.get("/api/entry-page", async (request, response) => {
     allowDevAllOrigin(response);
 

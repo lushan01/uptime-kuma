@@ -81,6 +81,16 @@ class UptimeCalculator {
         return UptimeCalculator.list[monitorID];
     }
 
+    static async getRealtimeUptimeCalculator(monitorID) {
+        if (!monitorID) {
+            throw new Error("Monitor ID is required");
+        }
+
+        UptimeCalculator.list[monitorID] = new UptimeCalculator();
+        await UptimeCalculator.list[monitorID].init(monitorID);
+        return UptimeCalculator.list[monitorID];
+    }
+
     /**
      * Remove a monitor from the list
      * @param {number} monitorID the id of the monitor
