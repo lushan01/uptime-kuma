@@ -261,7 +261,7 @@ router.get("/api/badge/:id/uptime/:duration?", cache("5 minutes"), async (reques
             const uptime = overrideValue ?? uptimeCalculator.getDataByDuration(requestedDuration).uptime;
 
             // limit the displayed uptime percentage to four (two, when displayed as percent) decimal digits
-            const cleanUptime = (uptime * 100).toPrecision(4);
+            const cleanUptime = (uptime * 100).toPrecision(5);
 
             // use a given, custom color or calculate one based on the uptime value
             badgeValues.color = color ?? percentageToColor(uptime);
